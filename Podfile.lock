@@ -1,0 +1,19 @@
+PODS:
+  - IIJMioKit (0.0.4)
+
+DEPENDENCIES:
+  - IIJMioKit (from `https://github.com/safx/IIJMioKit.git`)
+
+EXTERNAL SOURCES:
+  IIJMioKit:
+    :git: https://github.com/safx/IIJMioKit.git
+
+CHECKOUT OPTIONS:
+  IIJMioKit:
+    :commit: 2a060c66ce67dcff921d12e18192007f0cb8bb66
+    :git: https://github.com/safx/IIJMioKit.git
+
+SPEC CHECKSUMS:
+  IIJMioKit: 248d68790a3623663df01d95115e45c06a142844
+
+COCOAPODS: 0.37.1
