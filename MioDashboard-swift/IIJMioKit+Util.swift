@@ -13,12 +13,12 @@ extension MIOCouponHdoInfo {
     var couponUsedToday: UInt {
         func sameDay(a: NSDate, b: NSDate) -> Bool {
             let cal = NSCalendar.currentCalendar()
-            let u = NSCalendarUnit.CalendarUnitYear | NSCalendarUnit.CalendarUnitMonth | NSCalendarUnit.CalendarUnitDay
+            let u: NSCalendarUnit = [.Year, .Month, .Day]
             return cal.components(u, fromDate: a) == cal.components(u, fromDate: b)
         }
 
-        return reduce(packetLog, 0) { a1, e1 in
-            return a1 + (sameDay(e1.date, NSDate()) ? e1.withCoupon : 0)
+        return packetLog.reduce(0) { a1, e1 in
+            return a1 + (sameDay(e1.date, b: NSDate()) ? e1.withCoupon : 0)
         }
     }
     var phoneNumber: String {
@@ -34,15 +34,15 @@ extension MIOCouponHdoInfo {
 
 extension MIOCouponInfo {
     var totalCouponVolume: UInt {
-        return reduce(coupon, 0) { a, e in return a + e.volume }
+        return coupon.reduce(0) { a, e in return a + e.volume }
     }
     var couponUsedToday: UInt {
-        return reduce(hdoInfo, 0) { $0 + $1.couponUsedToday }
+        return hdoInfo.reduce(0) { $0 + $1.couponUsedToday }
     }
 }
 
 extension MIORestClient {
     func setUp() {
-        setUp("Your_Client_ID", redirectURI: "Your_Redirect_URI", state: "Some_State")
+        setUp("nq0ehnd2JxFVgvu1DTk", redirectURI: "http://safx-dev.blogspot.jp/iijmio/", state: "Some_State")
     }
 }

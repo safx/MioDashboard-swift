@@ -12,7 +12,7 @@ import IIJMioKit
 func createByteCountFormatter() -> NSByteCountFormatter {
     let f = NSByteCountFormatter()
     f.allowsNonnumericFormatting = false
-    f.allowedUnits = .UseMB | .UseGB
+    f.allowedUnits = [.UseMB, .UseGB]
     return f
 }
 
@@ -34,14 +34,14 @@ class MIOCouponInfo_s: NSObject, NSCoding {
         aCoder.encodeObject(hdoInfo as NSArray, forKey: "hdoInfo")
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.hddServiceCode = aDecoder.decodeObjectForKey("hddServiceCode") as? String ?? ""
         self.totalCouponVolume = aDecoder.decodeInt64ForKey("totalCouponVolume")
         self.hdoInfo = aDecoder.decodeObjectForKey("hdoInfo") as? [MIOCouponHdoInfo_s] ?? []
     }
 
     var couponUsedToday: UInt {
-        return UInt(reduce(hdoInfo, 0) { $0 + $1.couponUsedToday })
+        return UInt(hdoInfo.reduce(0) { $0 + $1.couponUsedToday })
     }
 }
 
@@ -60,7 +60,7 @@ class MIOCouponHdoInfo_s: NSObject, NSCoding {
         aCoder.encodeInt64(couponUsedToday, forKey: "couponUsedToday")
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.phoneNumber = aDecoder.decodeObjectForKey("phoneNumber") as! String
         self.couponUsedToday = aDecoder.decodeInt64ForKey("couponUsedToday")
     }

@@ -61,7 +61,7 @@ class InterfaceController: WKInterfaceController {
 
     override func contextForSegueWithIdentifier(segueIdentifier: String, inTable table: WKInterfaceTable, rowIndex: Int) -> AnyObject? {
             precondition(segueIdentifier == "detail")
-        return rowIndex < count(model) ? self.model[rowIndex] : nil
+        return rowIndex < model.count ? self.model[rowIndex] : nil
     }
 
     private func loadTableData() {
@@ -87,7 +87,7 @@ class InterfaceController: WKInterfaceController {
                         s.setTableData(m)
                         s.additionalInfo.setText("")
                         s.lastUpdated = NSDate()
-                        saveInfo(m, s.lastUpdated!)
+                        saveInfo(m, lastUpdated: s.lastUpdated!)
                     }
                 }
             } else {
@@ -104,8 +104,8 @@ class InterfaceController: WKInterfaceController {
 
         table.setNumberOfRows(cs.count, withRowType: "default")
 
-        for (i, c) in enumerate(cs) {
-            if var row = table.rowControllerAtIndex(i) as? TableRow {
+        for (i, c) in cs.enumerate() {
+            if let row = table.rowControllerAtIndex(i) as? TableRow {
                 row.model = c
             }
         }
@@ -115,7 +115,7 @@ class InterfaceController: WKInterfaceController {
     // TODO: use other RowType
     private func setErrorData(reason: String) {
         table.setNumberOfRows(1, withRowType: "default")
-        if var row = table.rowControllerAtIndex(0) as? TableRow {
+        if let row = table.rowControllerAtIndex(0) as? TableRow {
             row.hddServiceCode.setText(reason)
             row.couponTotal.setText("Error")
             row.couponUsedToday.setText("")
@@ -125,7 +125,7 @@ class InterfaceController: WKInterfaceController {
     // TODO: use other RowType
     private func setErrorData(reason: NSError) {
         table.setNumberOfRows(1, withRowType: "default")
-        if var row = table.rowControllerAtIndex(0) as? TableRow {
+        if let row = table.rowControllerAtIndex(0) as? TableRow {
             row.hddServiceCode.setText("\(reason.domain)")
             row.couponTotal.setText("\(reason.code)")
             row.couponUsedToday.setText("\(reason.description)")
@@ -171,8 +171,8 @@ class DetailInterfaceController: WKInterfaceController {
         let cs = model.hdoInfo
         table.setNumberOfRows(cs.count, withRowType: "default")
 
-        for (i, c) in enumerate(cs) {
-            if var row = table.rowControllerAtIndex(i) as? DetailTableRow {
+        for (i, c) in cs.enumerate() {
+            if let row = table.rowControllerAtIndex(i) as? DetailTableRow {
                 row.model = c
             }
         }

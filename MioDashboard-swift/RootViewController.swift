@@ -71,7 +71,7 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
 
     private func authorize(closure: MIORestClient.OAuthCompletionClosure) {
         let app = UIApplication.sharedApplication()
-        let window = app.windows[0] as! UIWindow
+        let window = app.windows[0] as UIWindow
         let view = window.rootViewController!.view
         MIORestClient.sharedClient.authorizeInView(view!, closure: closure)
     }
@@ -101,7 +101,7 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
     func pageViewController(pageViewController: UIPageViewController, spineLocationForInterfaceOrientation orientation: UIInterfaceOrientation) -> UIPageViewControllerSpineLocation {
         if (orientation == .Portrait) || (orientation == .PortraitUpsideDown) || (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
             // In portrait orientation or on iPhone: Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to YES, so set it to NO here.
-            let currentViewController = pageViewController.viewControllers[0] as! UIViewController
+            let currentViewController = pageViewController.viewControllers![0]
             let viewControllers = [currentViewController]
             pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in })
 
@@ -110,8 +110,8 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
         }
 
         // In landscape orientation: Set set the spine location to "mid" and the page view controller's view controllers array to contain two view controllers. If the current page is even, set it to contain the current and next view controllers; if it is odd, set the array to contain the previous and current view controllers.
-        let currentViewController = pageViewController.viewControllers[0] as! DataViewController
-        let viewControllers: [AnyObject]
+        let currentViewController = pageViewController.viewControllers![0] as! DataViewController
+        let viewControllers: [UIViewController]
 
         let indexOfCurrentViewController = modelController.indexOfViewController(currentViewController)
         if (indexOfCurrentViewController == 0) || (indexOfCurrentViewController % 2 == 0) {
@@ -121,7 +121,7 @@ class RootViewController: UIViewController, UIPageViewControllerDelegate {
             let previousViewController = modelController.pageViewController(pageViewController, viewControllerBeforeViewController: currentViewController)
             viewControllers = [previousViewController!, currentViewController]
         }
-        pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in })
+        pageViewController.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: {done in () })
 
         return .Mid
     }

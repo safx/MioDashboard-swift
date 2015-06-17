@@ -76,7 +76,7 @@ class GlanceController: WKInterfaceController {
                     if let s = self {
                         let m = r.couponInfo!.map{ MIOCouponInfo_s(info: $0) }
                         s.lastUpdated = NSDate()
-                        saveInfo(m, s.lastUpdated!)
+                        saveInfo(m, lastUpdated: s.lastUpdated!)
                         if let f = m.first {
                             s.additionalInfo.setText("")
                             s.model = f
